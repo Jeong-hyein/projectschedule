@@ -1,4 +1,4 @@
-package member.controller;
+package common;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -6,20 +6,15 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-//project/MemberLogout.do
-@WebServlet("/MemberLogout.do")
-public class MemberLogout extends HttpServlet {
+@WebServlet("/Main.do")
+public class Main extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		session.invalidate(); //세션 삭제
-		// "/" 리다이렉트
-		response.sendRedirect(request.getContextPath() + "/");
+		request.getRequestDispatcher("main/main.jsp").forward(request, response);
 	}
 
 

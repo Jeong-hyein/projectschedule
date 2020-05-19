@@ -17,7 +17,7 @@ public class MemberDAO {
 		try {
 			conn = ConnectionManager.getConnnect();
 			String sql = "insert into nmember (id, pwd, name,gender, introduction, regdt)"
-					+ "values (?,?,?,?, sysdate)";
+					+ "values (?,?,?,?,?, sysdate)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, member.getId());
 			pstmt.setString(2, member.getPwd());
@@ -66,14 +66,28 @@ public class MemberDAO {
 	}
 
 	// 전체조회
-	public ArrayList<MemberVO> getMemberList() {
+	public ArrayList<MemberVO> getMemberList(int start, int end, String name) {
 		ArrayList<MemberVO> list = new ArrayList<MemberVO>();
 		try {
 			// 1. DB 연결
 			conn = ConnectionManager.getConnnect();
-			// 2. 쿼리 준비
-			String sql = "select * from nmember order by id";
+			
+			String strWhere = "where 1 = 1"; //조건이 있던없던 true
+			if(name != null && !name.isEmpty()) {
+				strWhere += " and name = ?";  //where뒤에 and가 붙는다
+			}
+			
+			String sql = "select B.* from (select A.*, rownum RN from(" 
+					+"select * from nmember " + strWhere +"order by id"
+					+") A) B where RN BETWEEN ? AND ?";
+			
 			pstmt = conn.prepareStatement(sql);
+			int post = 1;
+			if(name != null && !name.isEmpty()) {
+				pstmt.setString(post++, name); //1넣고 나서 1을 더한다: post++
+			}
+			pstmt.setInt(post++, start);
+			pstmt.setInt(post++, end);
 			// 3. statment 실행
 			ResultSet rs = pstmt.executeQuery(); // rs: 결과 집합.
 			while (rs.next()) { // 조회된 건수만큼 while 돈다.
@@ -135,8 +149,18 @@ public class MemberDAO {
 		try {
 			// 1. DB 연결
 			conn = ConnectionManager.getConnnect();
+			
+			
 			// 2. sql구문 준비
-			String sql = "delete nmember where id = ?";
+			String sql = "delete board where id = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, member.getId());
+			// 3. 실행
+			r = pstmt.executeUpdate();
+			
+			
+			// 2. sql구문 준비
+			sql = "delete nmember where id = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, member.getId());
 			// 3. 실행
@@ -152,5 +176,36 @@ public class MemberDAO {
 		}
 		return r;
 	}
+	//전체건수	
+		public int getCount(String name) {
+				int cnt = 0;
+				ResultSet rs = null;
+				try {
+					conn = ConnectionManager.getConnnect();
+					String strWhere = " where 1 = 1"; //조건이 있던없던 true
+
+					if(name != null && ! name.isEmpty()) {
+						strWhere += " and name like '%' || ? || '%' " ;
+					}
+					String sql = "select count(*) as cnt from member" + strWhere;
+					pstmt = conn.prepareStatement(sql);
+					
+					int post = 1;
+
+					if(name != null && !name.isEmpty()) {
+						pstmt.setString(post++, name);
+					}
+					
+					rs = pstmt.executeQuery();
+					if(rs.next()) {
+						cnt = rs.getInt("cnt"); //컬럼명을 주거나, 인덱스를 주거나(1)
+					}			
+				} catch (Exception e) {
+					e.printStackTrace();
+				} finally {
+					ConnectionManager.close(rs, pstmt, conn);
+				}		
+				return cnt;
+			}
 
 }// close of class

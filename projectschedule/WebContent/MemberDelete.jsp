@@ -3,11 +3,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>project/main.jsp</title>
+<title></title>
 </head>
 <body>
-<%@include file ="/common/header.jsp" %>
-<div>메인 페이지</div>
 
 </body>
 </html>

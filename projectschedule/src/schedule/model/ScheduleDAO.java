@@ -65,15 +65,27 @@ public class ScheduleDAO {
 	}
 
 	// 전체조회
-	public ArrayList<ScheduleVO> getScheduleList() {
+	public ArrayList<ScheduleVO> getScheduleList(int start, int end, String id) {
 		ArrayList<ScheduleVO> list = new ArrayList<ScheduleVO>();
 		try {
 			// 1. DB 연결
 			conn = ConnectionManager.getConnnect();
+			String strWhere = "where 1 = 1"; //조건이 있던없던 true
+			if(id != null && !id.isEmpty()) {
+				strWhere += " and id = ?";  //where뒤에 and가 붙는다
+			}
 			// 2. 쿼리 준비
-			String sql = "select * from schedule order by seq desc, sdate asc";
+			String sql = "select B.* from (select A.*, rownum RN from(" 
+					+"select * from schedule" + strWhere +"order by id"
+					+") A) B where RN BETWEEN ? AND ?";
 			pstmt = conn.prepareStatement(sql);
 			// 3. statment 실행
+			int post = 1;
+			if(id != null && !id.isEmpty()) {
+				pstmt.setString(post++, id); //1넣고 나서 1을 더한다: post++
+			}
+			pstmt.setInt(post++, start);
+			pstmt.setInt(post++, end);
 			ResultSet rs = pstmt.executeQuery(); // rs: 결과 집합.
 			while (rs.next()) { // 조회된 건수만큼 while 돈다.
 				ScheduleVO vo = new ScheduleVO();
@@ -150,5 +162,36 @@ public class ScheduleDAO {
 			ConnectionManager.close(conn);
 		}
 		return r;
+	}
+	
+	public int getCount(String name) {
+		int cnt = 0;
+		ResultSet rs = null;
+		try {
+			conn = ConnectionManager.getConnnect();
+			String strWhere = " where 1 = 1"; //조건이 있던없던 true
+
+			if(name != null && ! name.isEmpty()) {
+				strWhere += " and name like '%' || ? || '%' " ;
+			}
+			String sql = "select count(*) as cnt from member" + strWhere;
+			pstmt = conn.prepareStatement(sql);
+			
+			int post = 1;
+
+			if(name != null && !name.isEmpty()) {
+				pstmt.setString(post++, name);
+			}
+			
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				cnt = rs.getInt("cnt"); //컬럼명을 주거나, 인덱스를 주거나(1)
+			}			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			ConnectionManager.close(rs, pstmt, conn);
+		}		
+		return cnt;
 	}
 }

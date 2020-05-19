@@ -5,51 +5,45 @@
 <html>
 <head>
 <title>project/header.jsp</title>
-<style>
-ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  background-color: #333;
-}
+<style type="text/css">
+<!--
 
-li {
-  float: left;
-}
-li.login {  
-display: block;
-  color: white;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-}
+#demo-container{padding:25px 15px 0 15px;background:#fff;}
 
-li a {
-  display: block;
-  color: white;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
+ul#simple-menu{list-style-type:none;width:100%;position:relative;height:27px;font-family:"Trebuchet MS",Arial,sans-serif;font-size:13px;font-weight:bold;margin:0px 0px 0px 490px;padding:11px 0 0 0;}
+ul#simple-menu li{display:block;float:left;margin:0 0 0 4px;height:27px;}
+ul#simple-menu li.left{margin:0;}
+ul#simple-menu li a{display:block;float:left;color:#fff;background:#4285F4;line-height:27px;text-decoration:none;padding:0 17px 0 18px;height:27px;}
+ul#simple-menu li a.right{padding-right:19px;}
+ul#simple-menu li a:hover{background:#2E4560;}
+ul#simple-menu li a.current{color:#2E4560;background:#fff;}
+ul#simple-menu li a.current:hover{color:#2E4560;background:#fff;}
+ul#simple-menu li.userId {
+	margin-top: 2px;
+	margin-left: 15px;
+	font-size: 15px;
 }
-
-li a:hover:not(.active) {
-  background-color: #111;
-}
-
-.active {
-  background-color: #4CAF50;
-}
+-->
 </style>
 </head>
 <body>
-<ul>
-  <li class="login">${sessionScope.loginId} (${sessionScope.loginMember.name})님</li>
-  <li><a href="#home">로그인</a></li>
-  <li><a href="#news">로그아웃</a></li>
-  <li><a href="#contact">게시판</a></li>
-  <li><a href="#contact">정보수정</a></li>
-  <li><a href="#contact">일정</a></li>
-</ul>
-</body>
-</html>
+<div id="demo-container">
+
+	<ul id="simple-menu">
+		<li><a href="Main.do" title="Home">Home</a></li>
+		<c:if test="${loginId == null}">
+		<li><a href="MemberLogin.do" title="Home">로그인</a></li>
+		</c:if>
+		<c:if test="${loginId != null}">
+		<li><a href="MemberLogout.do" title="Home">로그아웃</a></li>
+		<li><a href="MemberUpdate.do" title="Home">정보수정</a></li>
+		<li><a href="ScheduleList.do" title="Home">일정</a></li>
+		</c:if>
+		<li><a href="BoardList.do" title="Home">게시판</a></li>
+		
+		<c:if test="${loginId == 'admin'}">
+		<li><a href="MemberList.do" title="Home">회원목록</a></li>
+		</c:if>
+		<li class = "userId">${sessionScope.loginId} (${sessionScope.loginMember.name})님</li>
+	</ul>
+</div>
