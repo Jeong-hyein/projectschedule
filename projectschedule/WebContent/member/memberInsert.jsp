@@ -331,11 +331,11 @@ text-align: center;
     <div class="form-content">
       <form name="frm" action="MemberInsert.do" method="post">
         <div class="form-group">
-          <label for="username">ID</label>
+          <label for="id">ID</label>
           <input type="text" id="id" name="id" required="required"/>
         </div>
         <div class="form-group">
-          <label for="password">Password</label>
+          <label for="pwd">Password</label>
           <input type="password" id="pwd" name="pwd" required="required"/>
         </div>
        <div class="form-group">
