@@ -81,7 +81,7 @@ public class ScheduleDAO {
 			}
 			// 2. 쿼리 준비
 			String sql = "select B.* from (select A.*, rownum RN from " 
-					+"(select * from schedule " + strWhere +" order by sdate"
+					+"(select * from schedule " + strWhere +" order by sdate, id"
 					+") A) B where RN BETWEEN ? AND ?";
 			pstmt = conn.prepareStatement(sql);
 			// 3. statment 실행
@@ -174,7 +174,7 @@ public class ScheduleDAO {
 		return r;
 	}
 	
-	public int getCount(String id, String sdate,String schedule) {
+	public int getCount(String id, String sdate, String schedule) {
 		int cnt = 0;
 		ResultSet rs = null;
 		try {
@@ -190,7 +190,7 @@ public class ScheduleDAO {
 			if(schedule != null && ! schedule.isEmpty()) {
 				strWhere += " and schedule= ? " ;
 			}
-			String sql = "select count(*) as cnt from schedule" + strWhere;
+			String sql = "select count(*) as cnt from schedule " + strWhere;
 			pstmt = conn.prepareStatement(sql);
 			
 			int post = 1;

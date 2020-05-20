@@ -328,7 +328,7 @@ text-align: center;
             return;
          } else {
             alert("본인이 아닙니다.")   
-         }
+         }        
       }   
    }
 </script>

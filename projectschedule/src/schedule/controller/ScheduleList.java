@@ -43,8 +43,8 @@ public class ScheduleList extends HttpServlet {
 		
 		//페이징 객체를 생성
 		Paging paging = new Paging();
-		paging.setPageUnit(5);	 	//한페이지에 출력할 레코드 건수, 생략시 10(디폴트가 10),(옵션: 생략가능)
-		paging.setPageSize(3);		//한페이지 출력할 페이지 번호 수(옵션: 생략가능) 
+		paging.setPageUnit(1);	 	//한페이지에 출력할 레코드 건수, 생략시 10(디폴트가 10),(옵션: 생략가능)
+		paging.setPageSize(1);		//한페이지 출력할 페이지 번호 수(옵션: 생략가능) 
 		paging.setPage(p);			//현재페이지(필수)
 //		paging.setTotalRecord(50); //전체 레코드 건수 조회(필수)
 		paging.setTotalRecord(dao.getCount(id, sdate,schedule));
