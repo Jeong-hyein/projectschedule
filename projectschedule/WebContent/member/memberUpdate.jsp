@@ -360,7 +360,7 @@ text-align: center;
         </div>
         <div class="form-group">
           <label for="introduction">Introduction</label>
-          <textarea rows="10" cols="30" name="introduction" id="introduction" value="${member.introduction}"></textarea><br/>
+          <textarea rows="10" cols="30" name="introduction" id="introduction" >${member.introduction}</textarea><br/>
         </div>
   		<div></div>
   		<div></div>

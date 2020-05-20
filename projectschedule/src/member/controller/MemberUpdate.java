@@ -61,7 +61,7 @@ public class MemberUpdate extends HttpServlet {
 		int r = memberDAO.memberUpdate(member);
 		
 		request.setAttribute("member", member);
-		response.sendRedirect( request.getContextPath() +"/MemberList.do");
+		response.sendRedirect( request.getContextPath() +"/Main.do");
 		}
 	
 	}

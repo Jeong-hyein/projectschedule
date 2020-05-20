@@ -307,6 +307,13 @@ text-align: center;
 <body>
 <!-- Form-->
 <jsp:include page ="/common/header.jsp" />
+<script>
+if("${errorMsg}" != ""){
+	alert("${errorMsg}")
+	}
+</script>
+
+<div></div>
 <div class="form">
   <div class="form-toggle"></div>
   <div class="form-panel one">

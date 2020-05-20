@@ -2,8 +2,8 @@ package schedule.model;
 
 public class ScheduleVO {
 	private int seq;
-	private String sdate;
 	private String id;
+	private String sdate;
 	private String schedule;
 	private String memo;
 	

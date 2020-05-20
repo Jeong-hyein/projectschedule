@@ -44,16 +44,16 @@ public class BoardDAO {
 		}
 
 		// 단건조회
-		public BoardVO getBorad(String id) {
+		public BoardVO getBorad(String seq) {
 			BoardVO vo = new BoardVO();
 			try {
 				// 1. DB 연결
 				conn = ConnectionManager.getConnnect();
 				// 2. 쿼리 준비
-				String sql = "select * from board where id = ?";
+				String sql = "select * from board where seq = ?";
 				pstmt = conn.prepareStatement(sql);
 				// 3. statment 실행, 내가 넘겨주는 id값으로 찾을거임
-				pstmt.setString(1, id);
+				pstmt.setString(1, seq);
 				ResultSet rs = pstmt.executeQuery(); // rs: 결과 집합.
 				if (rs.next()) {
 					vo.setId(rs.getString("id"));
@@ -73,15 +73,34 @@ public class BoardDAO {
 		}
 
 		// 전체조회
-		public ArrayList<BoardVO> getBoardList() {
+		public ArrayList<BoardVO> getBoardList(int start, int end, String id, String title) {
 			ArrayList<BoardVO> list = new ArrayList<BoardVO>();
 			try {
 				// 1. DB 연결
 				conn = ConnectionManager.getConnnect();
+				String strWhere = " where 1 = 1"; //조건이 있던없던 true
+
+				if(id != null && ! id.isEmpty()) {
+					strWhere += " and board.id =? " ;
+				}
+				if(title != null && !title.isEmpty()) {
+					strWhere += " and board.title = ? ";
+				}
 				// 2. 쿼리 준비
 //				String sql = "select * from board order by seq desc";
-				String sql = "select board.*, nmember.name from board join nmember on board.id = nmember.id order by seq desc";
+				String sql = "select b.* from(select a.*, rownum RN from (select * from board join nmember"
+						+ " on board.id = nmember.id" + strWhere + " order by board.seq desc)a ) b"
+						+ " where RN between ? and ?";	
 				pstmt = conn.prepareStatement(sql);
+				int post = 1;
+				if(id != null && !id.isEmpty()) {
+					pstmt.setString(post++, id); //1넣고 나서 1을 더한다: post++
+				}
+				if(title != null && !title.isEmpty()) {
+					pstmt.setString(post++, title); //1넣고 나서 1을 더한다: post++
+				}
+				pstmt.setInt(post++, start);
+				pstmt.setInt(post++, end);
 				// 3. statment 실행
 				ResultSet rs = pstmt.executeQuery(); // rs: 결과 집합.
 				while (rs.next()) { // 조회된 건수만큼 while 돈다.
@@ -113,15 +132,15 @@ public class BoardDAO {
 				conn = ConnectionManager.getConnnect();
 
 				// 2. sql구문 준비
-				String sql = "update board set title=?, contents=?"
-						+ "where id =? ";
+				String sql = "update board set title=?, contents=? "
+						+ " where seq=? ";
 
 				pstmt = conn.prepareStatement(sql);
 
 				// 3. 실행
 				pstmt.setString(1, board.getTitle());
 				pstmt.setString(2, board.getContents());
-
+				pstmt.setInt(3, board.getSeq());
 				r = pstmt.executeUpdate();
 
 				// 4. 결과처리
@@ -143,7 +162,7 @@ public class BoardDAO {
 				// 1. DB 연결
 				conn = ConnectionManager.getConnnect();
 				// 2. sql구문 준비
-				String sql = "delete borad where seq = ?";
+				String sql = "delete board where seq = ?";
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setInt(1, borad.getSeq());
 				// 3. 실행
@@ -159,5 +178,44 @@ public class BoardDAO {
 			}
 			return r;
 		}
+		
+		//전체건수	
+		public int getCount(String id, String title) {
+				int cnt = 0;
+				ResultSet rs = null;
+				try {
+					conn = ConnectionManager.getConnnect();
+					String strWhere = " where 1 = 1"; //조건이 있던없던 true
+
+					if(id != null && ! id.isEmpty()) {
+						strWhere += " and id =? " ;
+					}
+					if(title != null && !title.isEmpty()) {
+						strWhere += " and title = ? ";
+					}
+					
+					String sql = "select count(*) as cnt from board" + strWhere;
+					pstmt = conn.prepareStatement(sql);
+					
+					int post = 1;
+
+					if(id != null && !id.isEmpty()) {
+						pstmt.setString(post++, id);
+					}
+					if(title != null && !title.isEmpty()) {
+						pstmt.setString(post++, title);
+					}
+					
+					rs = pstmt.executeQuery();
+					if(rs.next()) {
+						cnt = rs.getInt("cnt"); //컬럼명을 주거나, 인덱스를 주거나(1)
+					}			
+				} catch (Exception e) {
+					e.printStackTrace();
+				} finally {
+					ConnectionManager.close(rs, pstmt, conn);
+				}		
+				return cnt;
+			}
 	}
 

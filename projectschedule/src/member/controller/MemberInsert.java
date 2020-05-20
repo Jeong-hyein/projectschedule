@@ -46,7 +46,7 @@ public class MemberInsert extends HttpServlet {
 		// 3. 회원목록으로 이동 //include, forwaed, sendRedirect
 		// 경로 다름 주의!, 페이지만 바뀌면 된다, request객체 필요없음.: send
 		String contextPath = getServletContext().getContextPath();
-		response.sendRedirect(contextPath + "/MemberList.do");
+		response.sendRedirect(contextPath + "/MemberLogin.do");
 	}
 
 }

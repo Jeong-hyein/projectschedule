@@ -35,17 +35,16 @@ public class ScheduleDAO {
 	}
 
 	// 단건조회
-	public ScheduleVO getSchedule(String sdate, String id ) {
+	public ScheduleVO getSchedule(String seq) {
 		ScheduleVO vo = new ScheduleVO();
 		try {
 			// 1. DB 연결
 			conn = ConnectionManager.getConnnect();
 			// 2. 쿼리 준비
-			String sql = "select * from schedule where sdate=? and id=?";
+			String sql = "select * from schedule where seq=?";
 			pstmt = conn.prepareStatement(sql);
 			// 3. statment 실행, 내가 넘겨주는 id값으로 찾을거임
-			pstmt.setString(1, sdate);
-			pstmt.setString(2, id);
+			pstmt.setString(1, seq);
 			ResultSet rs = pstmt.executeQuery(); // rs: 결과 집합.
 			if (rs.next()) {
 				vo.setSeq(rs.getInt("seq"));
@@ -65,18 +64,24 @@ public class ScheduleDAO {
 	}
 
 	// 전체조회
-	public ArrayList<ScheduleVO> getScheduleList(int start, int end, String id) {
+	public ArrayList<ScheduleVO> getScheduleList(int start, int end, String id, String sdate,String schedule) {
 		ArrayList<ScheduleVO> list = new ArrayList<ScheduleVO>();
 		try {
 			// 1. DB 연결
 			conn = ConnectionManager.getConnnect();
-			String strWhere = "where 1 = 1"; //조건이 있던없던 true
+			String strWhere = " where 1 = 1 "; //조건이 있던없던 true
 			if(id != null && !id.isEmpty()) {
-				strWhere += " and id = ?";  //where뒤에 and가 붙는다
+				strWhere += " and id = ? ";  //where뒤에 and가 붙는다
+			}
+			if(sdate != null && !sdate.isEmpty()) {
+				strWhere += " and sdate = ? ";  //where뒤에 and가 붙는다
+			}
+			if(schedule != null && !schedule.isEmpty()) {
+				strWhere += " and schedule = ? ";  //where뒤에 and가 붙는다
 			}
 			// 2. 쿼리 준비
-			String sql = "select B.* from (select A.*, rownum RN from(" 
-					+"select * from schedule" + strWhere +"order by id"
+			String sql = "select B.* from (select A.*, rownum RN from " 
+					+"(select * from schedule " + strWhere +" order by sdate"
 					+") A) B where RN BETWEEN ? AND ?";
 			pstmt = conn.prepareStatement(sql);
 			// 3. statment 실행
@@ -84,8 +89,15 @@ public class ScheduleDAO {
 			if(id != null && !id.isEmpty()) {
 				pstmt.setString(post++, id); //1넣고 나서 1을 더한다: post++
 			}
+			if(sdate != null && !sdate.isEmpty()) {
+				pstmt.setString(post++, sdate); //1넣고 나서 1을 더한다: post++
+			}
+			if(schedule != null && !schedule.isEmpty()) {
+				pstmt.setString(post++, schedule); //1넣고 나서 1을 더한다: post++
+			}
 			pstmt.setInt(post++, start);
 			pstmt.setInt(post++, end);
+			
 			ResultSet rs = pstmt.executeQuery(); // rs: 결과 집합.
 			while (rs.next()) { // 조회된 건수만큼 while 돈다.
 				ScheduleVO vo = new ScheduleVO();
@@ -114,7 +126,7 @@ public class ScheduleDAO {
 			conn = ConnectionManager.getConnnect();
 
 			// 2. sql구문 준비
-			String sql = "update Schedule set sdate=?, schedule =?, memo=?" + "where id =? ";
+			String sql = "update Schedule set sdate=?, schedule =?, memo=?" + " where id =? ";
 
 			pstmt = conn.prepareStatement(sql);
 
@@ -139,17 +151,15 @@ public class ScheduleDAO {
 	}
 
 	// 삭제
-	public int memberDelete(ScheduleVO schedule) {
+	public int scheduleDelete(ScheduleVO schedule) {
 		int r = 0;
 		try {
 			// 1. DB 연결
 			conn = ConnectionManager.getConnnect();
 			// 2. sql구문 준비
-			String sql = "delete schedule where id = ? and sdate = ?";
+			String sql = "delete schedule where seq=? ";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, schedule.getId());
-			pstmt.setString(1, schedule.getSdate());
-			
+			pstmt.setInt(1, schedule.getSeq());
 			// 3. 실행
 			r = pstmt.executeUpdate();
 			// 4. 결과처리
@@ -164,23 +174,35 @@ public class ScheduleDAO {
 		return r;
 	}
 	
-	public int getCount(String name) {
+	public int getCount(String id, String sdate,String schedule) {
 		int cnt = 0;
 		ResultSet rs = null;
 		try {
 			conn = ConnectionManager.getConnnect();
 			String strWhere = " where 1 = 1"; //조건이 있던없던 true
 
-			if(name != null && ! name.isEmpty()) {
-				strWhere += " and name like '%' || ? || '%' " ;
+			if(id != null && ! id.isEmpty()) {
+				strWhere += " and id= ? " ;
 			}
-			String sql = "select count(*) as cnt from member" + strWhere;
+			if(sdate != null && ! sdate.isEmpty()) {
+				strWhere += " and to_char(sdate,'yyyy-mm-dd')= ? " ;
+			}
+			if(schedule != null && ! schedule.isEmpty()) {
+				strWhere += " and schedule= ? " ;
+			}
+			String sql = "select count(*) as cnt from schedule" + strWhere;
 			pstmt = conn.prepareStatement(sql);
 			
 			int post = 1;
 
-			if(name != null && !name.isEmpty()) {
-				pstmt.setString(post++, name);
+			if(id != null && !id.isEmpty()) {
+				pstmt.setString(post++, id);
+			}
+			if(sdate != null && !sdate.isEmpty()) {
+				pstmt.setString(post++, sdate);
+			}
+			if(schedule != null && !schedule.isEmpty()) {
+				pstmt.setString(post++, schedule);
 			}
 			
 			rs = pstmt.executeQuery();
