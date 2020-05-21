@@ -2,13 +2,25 @@
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
 <title>projectschedule/boardList.jsp</title>
 <style type="text/css">
+.pagination{width: 800px; margin: 30px auto;}
+.pagination ul{list-style-type: none; display:table; margin:0 auto;}
+.pagination ul li{display:table-cell;vertical-align:middle;}
+.pagination ul li.rdbtn a{width: 15px; height: 15px; background-color: #fff;
+    display: inline-block;  margin: 5px;  border-radius: 50%; text-indent:-10000px}
+.pagination ul li.active a{background-color:#3498DB;}
+.pagination ul li.nbtn a{width: 27px;display: inline-block;background-color: #fffafa;
+    padding: 3px;border-radius: 5px; color: #333; font-weight: bold;text-decoration: none; margin: 0 5px;
+    }
 body
 {
+	background: -webkit-linear-gradient(45deg, rgba(66, 183, 245, 0.8) 0%, rgba(66, 245, 189, 0.4) 100%);
+    background: linear-gradient(45deg, rgba(66, 183, 245, 0.8) 0%, rgba(66, 245, 189, 0.4) 100%);
 	line-height: 1.6em;
 }
 
@@ -43,17 +55,23 @@ body
 
 
 <jsp:include page ="/common/header.jsp" />
-<span><a href="BoardInsert.do">게시판등록</a></span>
-<h3>게시판 목록</h3>
+<div style="margin-left: 42%; margin-top:50px;">
+<h3>게시판 목록 </h3>
+</div>
+
+<div style="margin-left: 31%; margin-top:50px;">
+
 <form name="searchfrm">
 	<input name="p" value="1" type="hidden">
 	작성자: <input name="id">
-	<button>검색</button>
-	<input name="p" value="1" type="hidden">
 	제목: <input name="title">
 	<button>검색</button>
+	<button ><a href="BoardInsert.do" style="text-decoration: none; color:black;">게시판등록</a></button>
 </form><br>
-<table border="1" id="hor-minimalist-a" summary="Employee Pay Sheet">
+</div>
+
+<div style="margin-left: 30%;">
+<table border="1" id="hor-minimalist-a" summary="Employee Pay Sheet" >
 	<tr>
 	<th>번호</th>
 	<th>아이디</th>
@@ -71,5 +89,15 @@ body
 		</tr>
 	</c:forEach>
 </table>
+</div>
+<script>
+function gopage(p) { //document.searchfrm하면 searchfrm을 찾아간다.
+		document.searchfrm.p.value = p; //폼에 p값을 담는다.
+		document.searchfrm.submit(); //폼 전체를 전송
+	}
+</script>
+
+<my:paging paging="${paging}" jsfunc="gopage"/>
+
 </body>
 </html>

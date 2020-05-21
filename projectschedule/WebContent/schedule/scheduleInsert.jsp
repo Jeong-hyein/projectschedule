@@ -12,7 +12,8 @@ html {
 }
 
 body {
-
+background: -webkit-linear-gradient(45deg, rgba(66, 183, 245, 0.8) 0%, rgba(66, 245, 189, 0.4) 100%);
+  background: linear-gradient(45deg, rgba(66, 183, 245, 0.8) 0%, rgba(66, 245, 189, 0.4) 100%);
   color: rgba(0, 0, 0, 0.6);
   font-family: "Roboto", sans-serif;
   font-size: 14px;
@@ -322,6 +323,12 @@ text-align: center;
 </head>
 <body>
 <jsp:include page ="/common/header.jsp" />
+<div style="margin-top:30px; margin-left:45%; color:black;">일정 목록</div>
+<div style=" margin-top:30px; margin-left:40.5%;">
+<button ><a href="ScheduleInsert.do" style="text-decoration: none; color:black;">일정 등록</a></button>
+<button><a href="ScheduleList.do" style="text-decoration: none; color:black;">리스트 보기</a></button> 
+<button><a href="CalendarInsert.do" style="text-decoration: none; color:black;">달력 보기</a></button>
+</div>
 <div class="form">
   <div class="form-toggle"></div>
   <div class="form-panel one">

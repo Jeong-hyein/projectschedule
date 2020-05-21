@@ -117,6 +117,37 @@ public class ScheduleDAO {
 		}
 		return list;
 	}
+	
+	public ArrayList<ScheduleVO> getCal() {
+		ArrayList<ScheduleVO> list = new ArrayList<ScheduleVO>();
+		try {
+			// 1. DB 연결
+			conn = ConnectionManager.getConnnect();
+			
+			// 2. 쿼리 준비
+			String sql = "select seq, id, to_char(sdate,'yyyymmdd') as sdate, schedule, memo from schedule order by sdate";
+			pstmt = conn.prepareStatement(sql);
+			// 3. statment 실행
+
+			ResultSet rs = pstmt.executeQuery(); // rs: 결과 집합.
+			while (rs.next()) { // 조회된 건수만큼 while 돈다.
+				ScheduleVO vo = new ScheduleVO();
+				vo.setSeq(rs.getInt("seq"));
+				vo.setId(rs.getString("id"));
+				vo.setSdate(rs.getString("sdate"));
+				vo.setSchedule(rs.getString("schedule"));
+				vo.setMemo(rs.getString("memo"));
+				list.add(vo);
+			}
+			// 4. 결과 저정
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// 5.연결 해제
+			ConnectionManager.close(conn);
+		}
+		return list;
+	}
 
 	// 수정
 	public int scheduleUpdate(ScheduleVO schedule) {
@@ -185,7 +216,7 @@ public class ScheduleDAO {
 				strWhere += " and id= ? " ;
 			}
 			if(sdate != null && ! sdate.isEmpty()) {
-				strWhere += " and to_char(sdate,'yyyy-mm-dd')= ? " ;
+				strWhere += " and to_char(sdate,'yyyymmdd')= ? " ;
 			}
 			if(schedule != null && ! schedule.isEmpty()) {
 				strWhere += " and schedule= ? " ;

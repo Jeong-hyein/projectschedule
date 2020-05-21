@@ -6,9 +6,14 @@
 <head>
 <title>project/header.jsp</title>
 <style type="text/css">
+html {
+height: 100%;
+}
 <!--
 
-#demo-container{padding:25px 15px 0 15px;background:#fff;}
+#demo-container{padding:25px 15px 0 15px;
+  background: -webkit-linear-gradient(45deg, rgba(66, 183, 245, 0.8) 0%, rgba(66, 245, 189, 0.4) 100%);
+  background: linear-gradient(45deg, rgba(66, 183, 245, 0.8) 0%, rgba(66, 245, 189, 0.4) 100%);}
 
 ul#simple-menu{list-style-type:none;width:100%;position:relative;height:27px;font-family:"Trebuchet MS",Arial,sans-serif;font-size:13px;font-weight:bold;margin:0px 0px 0px 0px;padding:11px 0 0 0;}
 ul#simple-menu li{display:block;float:left;margin:0 0 0 4px;height:27px;}
@@ -37,10 +42,9 @@ ul#simple-menu li.userId {
 		<c:if test="${loginId != null}">
 		<li><a href="MemberLogout.do" title="Home">로그아웃</a></li>
 		<li><a href="MemberUpdate.do" title="Home">정보수정</a></li>
-		<li><a href="ScheduleList.do" title="Home">일정</a></li>
+		<li><a href="Schedule.do" title="Home">일정</a></li>
 		</c:if>
 		<li><a href="BoardList.do" title="Home">게시판</a></li>
-		
 		<c:if test="${loginId == 'admin'}">
 		<li><a href="MemberList.do" title="Home">회원목록</a></li>
 		</c:if>

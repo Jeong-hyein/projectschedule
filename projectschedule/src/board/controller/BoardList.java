@@ -26,7 +26,7 @@ public class BoardList extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String logindId = (String) request.getSession().getAttribute("loginId"); //이름 같아야한다.
 		if(logindId == null) {
-			response.sendRedirect("/member/memberLogin.jsp");
+			response.sendRedirect( request.getContextPath() +"/MemberLogin.do");
 			return;
 		} 
 		
