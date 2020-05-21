@@ -76,7 +76,7 @@ text_align: center;
   %>
   
  
-  <table border=0 style="margin-left: 28.5%; margin-top: 30px; color: black;  white-space: nowrap;"> <!-- 달력 상단 부분, 더 좋은 방법이 없을까? -->
+  <table border=0 style="margin-left: 24%; margin-top: 30px; color: black;  white-space: nowrap; width: 49%; "> <!-- 달력 상단 부분, 더 좋은 방법이 없을까? -->
    <tr>
     <td align=left width=200> <!-- 년 도-->
     <a href="CalendarInsert.do?year=<%out.print(year-1);%>&month=<%out.print(month);%>" style="text-decoration: none;">◀</a>
@@ -86,13 +86,13 @@ text_align: center;
     <td align=center width=300> <!-- 월 -->
     <a href="CalendarInsert.do?year=<%out.print(year);%>&month=<%out.print(month-1);%>" style="text-decoration: none;">◀</a>
     <% out.print(month+1); %>월
-    <a href="CalendarInsert.do?year=<%out.print(year);%>&month=<%out.print(month+1);%>" style="text-decoration: none;">▶</a>
+    <a href="CalendarInsert.do?year=<%out.print(year);%>&month=<%out.print(month+1);%>" style="text-decoration: none; ">▶</a>
     </td>
-    <td align=right width=200><% out.print(currentYear + "-" + (currentMonth+1) + "-" + currentDate); %></td>
+    <td align=right width=200"><% out.print(currentYear + "-" + (currentMonth+1) + "-" + currentDate); %></td>
    </tr>
   </table>
-  <table border=1 cellspacing=0 style="margin-left: 28%; background: #fff; border-collapse: collapse;"> <!-- 달력 부분 -->
-   <tr style="text-align: center; padding: 10px 8px;">
+  <table border=1 cellspacing=0 style="margin-left: 24%; background: #fff; border-collapse: collapse; width: 50%; "> <!-- 달력 부분 -->
+   <tr style="text-align: center; padding: 10px 8px; color:#669;">
     <td width=100>일</td> <!-- 일=1 -->
     <td width=100>월</td> <!-- 월=2 -->
     <td width=100>화</td> <!-- 화=3 -->
@@ -116,7 +116,7 @@ text_align: center;
     }
    }
    for(int i=1; i<=end; i++) { //날짜출력
-    out.println("<td>");
+    out.println("<td style='color:#669;'>");
     out.print(i);
    //일정출력
     String smonth;
@@ -136,7 +136,7 @@ text_align: center;
     if(list != null){
 	    for(int j=0; j<list.size(); j++){
 			if(date.equals(list.get(j).getSdate())) {
-				out.print("<br>"+ j+". " +list.get(j).getSchedule());			
+				out.print("<br>"+ "<a href='ScheduleUpdate.do?seq="+list.get(j).getSeq()+"'" + "style='text-decoration: none; color:black;'>"+(j+1)+". " +list.get(j).getSchedule()+"</a>");			
 			}
 	    }
     }

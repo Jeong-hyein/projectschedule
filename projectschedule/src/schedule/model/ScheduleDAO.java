@@ -157,7 +157,7 @@ public class ScheduleDAO {
 			conn = ConnectionManager.getConnnect();
 
 			// 2. sql구문 준비
-			String sql = "update Schedule set sdate=?, schedule =?, memo=?" + " where id =? ";
+			String sql = "update Schedule set sdate=?, schedule =?, memo=?" + " where id =? and seq=?";
 
 			pstmt = conn.prepareStatement(sql);
 
@@ -166,11 +166,12 @@ public class ScheduleDAO {
 			pstmt.setString(2, schedule.getSchedule());
 			pstmt.setString(3, schedule.getMemo());
 			pstmt.setString(4, schedule.getId());
-
+			pstmt.setInt(5, schedule.getSeq());
+			
 			r = pstmt.executeUpdate();
 
 			// 4. 결과처리
-			System.out.println(r + " 건이 등록됨.");
+			System.out.println(r + " 건이 수정됨.");
 
 		} catch (Exception e) {
 			e.printStackTrace();

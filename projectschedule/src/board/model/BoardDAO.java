@@ -133,7 +133,7 @@ public class BoardDAO {
 
 				// 2. sql구문 준비
 				String sql = "update board set title=?, contents=? "
-						+ " where seq=? ";
+						+ " where seq=? and id=? ";
 
 				pstmt = conn.prepareStatement(sql);
 
@@ -141,6 +141,7 @@ public class BoardDAO {
 				pstmt.setString(1, board.getTitle());
 				pstmt.setString(2, board.getContents());
 				pstmt.setInt(3, board.getSeq());
+				pstmt.setString(4, board.getId());
 				r = pstmt.executeUpdate();
 
 				// 4. 결과처리

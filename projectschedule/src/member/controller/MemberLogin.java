@@ -39,10 +39,10 @@ public class MemberLogin extends HttpServlet {
 		PrintWriter out = response.getWriter();
 				if(vo.getId() == null) { 
 			request.setAttribute("errorMsg", "id 오류");
-			request.getRequestDispatcher("/member/memberLogin.jsp").forward(request, response);;
+			request.getRequestDispatcher("/member/memberLogin.jsp").forward(request, response);
 		}else if(! vo.getPwd().equals(pwd)) { 
 			request.setAttribute("errorMsg", "pwd 오류"); 
-			request.getRequestDispatcher("/member/memberLogin.jsp").forward(request, response);;
+			request.getRequestDispatcher("/member/memberLogin.jsp").forward(request, response);
 		} else { 
 			HttpSession session = request.getSession();
 			session.setAttribute("loginId", id); 

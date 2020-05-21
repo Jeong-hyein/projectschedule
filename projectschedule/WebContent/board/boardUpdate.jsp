@@ -342,7 +342,8 @@ text-align: center;
       <h1>게시판 수정</h1>
     </div>
     <div class="form-content">
-      <form name="frm" action="BoardInsert.do" method="post">
+      <form name="frm" action="BoardUpdate.do" method="post">
+      <input name="seq" value="${board.seq}" type="hidden"/>
         <div class="form-group">
           <label for="id">ID</label>
           <input type="text" id="id" name="id" value="${board.id}"/>

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -336,26 +337,29 @@ text-align: center;
 </head>
 <body>
 <jsp:include page ="/common/header.jsp" />
+
 <div class="form">
   <div class="form-toggle"></div>
   <div class="form-panel one">
     <div class="form-header">
-      <h1>일정 등록</h1>
+      <h1>일정 수정</h1>
     </div>
     <div class="form-content">
-      <form name="frm" action="ScheduleInsert.do" method="post">
-
+      <form name="frm" action="ScheduleUpdate.do" method="post">
+        <input name="seq" value="${schedule.seq}" type="hidden"/>
         <div class="form-group">
           <label for="id">ID</label>
-          <input type="text" id="id" name="id" value="${loginId}"/>
+          <input type="text" id="id" name="id" value="${schedule.id}"/>
         </div>
         <div class="form-group">
           <label for="sdate">날짜</label>
-          <input type="text" id="sdate" name="sdate" value="${schedule.sdate}" required="required"/>
+          <fmt:parseDate value="${schedule.sdate}" var="sdate" pattern="yyyy-MM-dd HH:mm:ss"></fmt:parseDate>
+          <input type="text" id="sdate" name="sdate" value="<fmt:formatDate pattern="yyyy-MM-dd" value="${sdate}"/>" required="required"/>
         </div>
        <div class="form-group">
        	  <label for="schedule">일정</label>
           <input type="text" id="schedule" name="schedule" value="${schedule.schedule}" equired="required"/>
+          
         </div>
         <div class="form-group">
           <label for="memo">메모</label>

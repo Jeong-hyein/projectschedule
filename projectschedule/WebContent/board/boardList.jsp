@@ -8,7 +8,7 @@
 <head>
 <title>projectschedule/boardList.jsp</title>
 <style type="text/css">
-.pagination{width: 800px; margin: 30px auto;}
+
 .pagination ul{list-style-type: none; display:table; margin:0 auto;}
 .pagination ul li{display:table-cell;vertical-align:middle;}
 .pagination ul li.rdbtn a{width: 15px; height: 15px; background-color: #fff;
@@ -53,9 +53,15 @@ body
 }
 </style>
 
-
 <jsp:include page ="/common/header.jsp" />
-<div style="margin-left: 42%; margin-top:50px;">
+
+<script>
+if("${errorMsg}" != ""){
+	alert("${errorMsg}")
+	}
+</script>
+
+<div style="margin-left: 45%; margin-top:50px;">
 <h3>게시판 목록 </h3>
 </div>
 
@@ -70,7 +76,7 @@ body
 </form><br>
 </div>
 
-<div style="margin-left: 30%;">
+<div style="margin-left: 32%;">
 <table border="1" id="hor-minimalist-a" summary="Employee Pay Sheet" >
 	<tr>
 	<th>번호</th>
@@ -83,7 +89,9 @@ body
 		<tr>
 		<td>${vo.seq}</td>
 		<td>${vo.id}</td>
-		<td><a href="BoardUpdate.do?seq=${vo.seq}">${vo.title}</a></td>
+		<td>
+		<a href="BoardUpdate.do?seq=${vo.seq}" style="text-decoration: none; color:black;">${vo.title}</a>
+		</td>
 		<td>${vo.contents}</td>
 		<td>${vo.regdt}</td>
 		</tr>

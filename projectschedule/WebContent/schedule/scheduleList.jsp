@@ -8,7 +8,7 @@
 <head>
 <title>/projectschedule/scheduleList.jsp</title>
 <style type="text/css">
-.pagination{width: 800px; margin-left:25%}
+.pagination{width: 800px; margin-left:21%}
 .pagination ul{list-style-type: none; display:table; margin:0 auto;}
 .pagination ul li{display:table-cell;vertical-align:middle;}
 .pagination ul li.rdbtn a{width: 15px; height: 15px; background-color: #fff;
@@ -93,7 +93,7 @@ text_align: center;
 				<fmt:parseDate value="${vo.sdate}" var="sdate" pattern="yyyy-MM-dd HH:mm:ss"></fmt:parseDate>
 				<fmt:formatDate pattern="yyyy-MM-dd" value="${sdate}"/>
 				</td>
-				<td> <a href="ScheduleUpdate.do?seq=${vo.seq}">${vo.schedule}</a></td>
+				<td> <a href="ScheduleUpdate.do?seq=${vo.seq}" style="text-decoration: none; color:black;">${vo.schedule}</a></td>
 				<td>${vo.memo}</td>
 			</tr>
 		</c:forEach>

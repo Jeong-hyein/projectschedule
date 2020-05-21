@@ -21,15 +21,16 @@ public class MemberUpdate extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		String id = (String) request.getSession().getAttribute("loginId"); //이름 같아야한다.
-		if(id == null) {    	
+		String loginId = (String) request.getSession().getAttribute("loginId"); //이름 같아야한다.
+		if(loginId == null) {    	
 			response.sendRedirect(request.getContextPath()+"/MemberLogin.do");
 			return;
 		} 
 		
 		//서비스 로직 처리(회원정보 1건 조회)
 		MemberDAO dao = new MemberDAO();
-		MemberVO vo = dao.getMember(id);
+		//String id = request.getParameter("id");
+		MemberVO vo = dao.getMember(loginId);
 		
 		//결과 저장
 		request.setAttribute("member", vo);
@@ -61,7 +62,7 @@ public class MemberUpdate extends HttpServlet {
 		int r = memberDAO.memberUpdate(member);
 		
 		request.setAttribute("member", member);
-		response.sendRedirect( request.getContextPath() +"/Main.do");
+		response.sendRedirect( request.getContextPath() +"/MemberList.do");
 		}
 	
 	}

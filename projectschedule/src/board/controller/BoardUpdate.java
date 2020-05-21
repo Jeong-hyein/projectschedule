@@ -1,12 +1,14 @@
 package board.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import board.model.BoardDAO;
 import board.model.BoardVO;
@@ -20,6 +22,22 @@ public class BoardUpdate extends HttpServlet {
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("text/html; charset=utf-8"); 
+		/*
+		 * String seq = request.getParameter("seq"); BoardDAO dao = new BoardDAO();
+		 * BoardVO vo = dao.getBorad(seq);
+		 * 
+		 * String loginId = (String) request.getSession().getAttribute("loginId"); //이름
+		 * 같아야한다. if(loginId == null || ! vo.getId().equals(loginId) ||
+		 * !loginId.equals("admin")) { request.setAttribute("errorMsg", "본인이 아닙니다.");
+		 * request.getRequestDispatcher("/BoardList.do").forward(request, response);
+		 * return; }else if (vo.getId().equals(loginId) || loginId.equals("admin")) {
+		 * 
+		 * request.setAttribute("board", vo);
+		 * request.getRequestDispatcher("/board/boardUpdate.jsp").forward(request,
+		 * response); }
+		 */
+		
 		String seq = request.getParameter("seq");
 		BoardDAO dao = new BoardDAO();
 		BoardVO vo = dao.getBorad(seq);	
@@ -31,6 +49,8 @@ public class BoardUpdate extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html; charset=UTF-8");
 		request.setCharacterEncoding("utf-8");
+		
+
 		
 		String seq = request.getParameter("seq");
 		String id = request.getParameter("id");

@@ -20,13 +20,13 @@ public class MemberDelete extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		  String id = (String) request.getSession().getAttribute("loginId");
-	      
+		 // String id = request.getParameter("id");
 	      MemberDAO dao = new MemberDAO();
 	      MemberVO vo = new MemberVO();
 	      vo.setId(id);
 	      dao.memberDelete(vo);
 
-	      response.sendRedirect( request.getContextPath() +"/Main.do");
+	      response.sendRedirect( request.getContextPath() +"/MemberList.do");
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

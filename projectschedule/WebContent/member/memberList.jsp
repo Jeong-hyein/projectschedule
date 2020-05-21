@@ -52,6 +52,7 @@ body
 </style>
 <title>project/memberList.jsp</title>
 <jsp:include page ="/common/header.jsp" />
+
 <div class="title" style="margin-left:45.5%; margin-top:50px;">
 <h3>회원목록</h3>
 </div>
@@ -62,7 +63,7 @@ body
 	<button>검색</button>
 </form><br>
 </div>
-<div class="table" style="margin-left: 28%;">
+<div class="table" style="margin-left: 31%;">
 	<table border="1" id="hor-minimalist-a" summary="Employee Pay Sheet">
 		<tr>
 			<td>아이디</td>
@@ -70,14 +71,16 @@ body
 			<td>성별</td>
 			<td>자기소개</td>
 			<td>등록일자</td>
+			<td>삭제</td>
 		</tr>
 		<c:forEach var="vo" items="${list}">
 			<tr>
-				<td>${vo.id}</td>
+				<td><a href="MemberUpdate.do?id=${vo.id}" style="text-decoration: none; color:black;">${vo.id}</td>
 				<td>${vo.name}</td>
 				<td>${vo.gender}</td>
 				<td>${vo.introduction}</td>
 				<td>${vo.regdt}</td>
+				<td><a href="MemberDelete.do?id=${vo.id}" style="text-decoration: none; color:black;">삭제</button></td>
 			</tr>
 		</c:forEach>
 		</table>

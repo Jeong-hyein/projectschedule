@@ -152,7 +152,7 @@ public class MemberDAO {
 			
 			
 			// 2. sql구문 준비
-			String sql = "delete board where id = ?";
+			String sql = "delete nmember where id = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, member.getId());
 			// 3. 실행
@@ -160,7 +160,8 @@ public class MemberDAO {
 			
 			
 			// 2. sql구문 준비
-			sql = "delete nmember where id = ?";
+			
+			sql = "delete board where id = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, member.getId());
 			// 3. 실행

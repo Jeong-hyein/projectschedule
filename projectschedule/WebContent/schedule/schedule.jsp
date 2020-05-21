@@ -49,6 +49,12 @@ text_align: center;
 
 </style>
 
+<script>
+if("${errorMsg}" != ""){
+	alert("${errorMsg}")
+	}
+</script>
+
 <div style="margin-left:45%; margin-top:30px;">일정 목록</div>
 
 <div style="margin-left:40.5%; margin-top:30px;">
