@@ -75,12 +75,12 @@ body
 		</tr>
 		<c:forEach var="vo" items="${list}">
 			<tr>
-				<td><a href="MemberUpdate.do?id=${vo.id}" style="text-decoration: none; color:black;">${vo.id}</td>
+				<td><a href="MemberUpdate.do?id=${vo.id}" style="text-decoration: none; color:black;">${vo.id}</a></td>
 				<td>${vo.name}</td>
 				<td>${vo.gender}</td>
 				<td>${vo.introduction}</td>
 				<td>${vo.regdt}</td>
-				<td><a href="MemberDelete.do?id=${vo.id}" style="text-decoration: none; color:black;">삭제</button></td>
+				<td><a href="#" onclick = "checkDelete('${vo.id}')" style="text-decoration: none; color:black;">삭제</a></td>
 			</tr>
 		</c:forEach>
 		</table>
@@ -90,6 +90,12 @@ function gopage(p) { //document.searchfrm하면 searchfrm을 찾아간다.
 		document.searchfrm.p.value = p; //폼에 p값을 담는다.
 		document.searchfrm.submit(); //폼 전체를 전송
 	}
+	
+function checkDelete(id) {
+	if(confirm('삭제할까요?')) {
+		location.href = "MemberDelete.do?id="+ id;
+	}
+}
 </script>
 <my:paging paging="${paging}" jsfunc="gopage"/>
 

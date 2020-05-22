@@ -23,26 +23,33 @@ public class BoardUpdate extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html; charset=utf-8"); 
-		/*
-		 * String seq = request.getParameter("seq"); BoardDAO dao = new BoardDAO();
-		 * BoardVO vo = dao.getBorad(seq);
-		 * 
-		 * String loginId = (String) request.getSession().getAttribute("loginId"); //이름
-		 * 같아야한다. if(loginId == null || ! vo.getId().equals(loginId) ||
-		 * !loginId.equals("admin")) { request.setAttribute("errorMsg", "본인이 아닙니다.");
-		 * request.getRequestDispatcher("/BoardList.do").forward(request, response);
-		 * return; }else if (vo.getId().equals(loginId) || loginId.equals("admin")) {
-		 * 
-		 * request.setAttribute("board", vo);
-		 * request.getRequestDispatcher("/board/boardUpdate.jsp").forward(request,
-		 * response); }
-		 */
+		PrintWriter out = response.getWriter();
+		 String seq = request.getParameter("seq"); BoardDAO dao = new BoardDAO();
+		 BoardVO vo = dao.getBorad(seq);
+		 
+		 String loginId = (String) request.getSession().getAttribute("loginId"); //이름 같아야한다. 
+		 if(loginId == null || ! vo.getId().equals(loginId) ||!loginId.equals("admin")) 
+		 { 
+			 out.append("<script>");
+			 out.append("alert('본인이 아닙니다.');");
+			 out.append("location.href='BoardList.do';");
+			 out.append("</script>");
+			 return; 
+		 }
+		 else if (vo.getId().equals(loginId) || loginId.equals("admin")) 
+		 {
+			request.setAttribute("board", vo);
+		    request.getRequestDispatcher("/board/boardUpdate.jsp").forward(request,
+		    response); 
+		 }
+		 
 		
-		String seq = request.getParameter("seq");
-		BoardDAO dao = new BoardDAO();
-		BoardVO vo = dao.getBorad(seq);	
-		request.setAttribute("board", vo);
-		request.getRequestDispatcher("/board/boardUpdate.jsp").forward(request, response);
+//		String seq = request.getParameter("seq");
+//		BoardDAO dao = new BoardDAO();
+//		BoardVO vo = dao.getBorad(seq);	
+//		request.setAttribute("board", vo);
+//		request.getRequestDispatcher("/board/boardUpdate.jsp").forward(request, response);
+		
 	}
 
 

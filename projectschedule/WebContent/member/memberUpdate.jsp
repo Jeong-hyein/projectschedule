@@ -344,7 +344,7 @@ text-align: center;
       <form name="frm" action="MemberUpdate.do" method="post">
         <div class="form-group">
           <label for="username">ID</label>
-          <input type="text" id="id" name="id" value="${member.id}"/>
+          <input type="text" id="id" name="id" readonly= "readonly"  value="${member.id}"/>
         </div>
         <div class="form-group">
           <label for="password">Password</label>

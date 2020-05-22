@@ -349,7 +349,7 @@ text-align: center;
         <input name="seq" value="${schedule.seq}" type="hidden"/>
         <div class="form-group">
           <label for="id">ID</label>
-          <input type="text" id="id" name="id" value="${schedule.id}"/>
+          <input type="text" id="id" name="id" readonly= "readonly"  value="${schedule.id}"/>
         </div>
         <div class="form-group">
           <label for="sdate">날짜</label>

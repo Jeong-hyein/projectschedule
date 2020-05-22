@@ -19,8 +19,8 @@ public class MemberDelete extends HttpServlet {
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		  String id = (String) request.getSession().getAttribute("loginId");
-		 // String id = request.getParameter("id");
+		  //String id = (String) request.getSession().getAttribute("loginId");
+		  String id = request.getParameter("id");
 	      MemberDAO dao = new MemberDAO();
 	      MemberVO vo = new MemberVO();
 	      vo.setId(id);

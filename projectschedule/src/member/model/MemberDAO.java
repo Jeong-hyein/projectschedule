@@ -152,21 +152,22 @@ public class MemberDAO {
 			
 			
 			// 2. sql구문 준비
-			String sql = "delete nmember where id = ?";
+			String sql = "delete schedule where id = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, member.getId());
-			// 3. 실행
 			r = pstmt.executeUpdate();
-			
-			
-			// 2. sql구문 준비
+
 			
 			sql = "delete board where id = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, member.getId());
-			// 3. 실행
 			r = pstmt.executeUpdate();
-			// 4. 결과처리
+			
+			sql = "delete nmember where id = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, member.getId());
+			r = pstmt.executeUpdate();
+			
 			System.out.println(r + " 건이 삭제됨.");
 
 		} catch (Exception e) {
